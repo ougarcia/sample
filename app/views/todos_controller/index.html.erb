@@ -5,26 +5,31 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-
 </head>
 <body>
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3">
         <h1>Todos</h1>
+
         <div class="panel panel-default">
           <ul class="list-group">
             <% @todos.each do |todo| %>
               <li class="list-group-item">
                 <%= todo.title %>
-                <button class="btn btn-danger btn-xs pull-right" type="submit">
+                <button data-id="<%= todo.id %>" class="btn btn-danger btn-xs pull-right" type="submit">
                   Done
                 </button>
               </li>
             <% end %>
           </ul>
-          <div class="panel-footer"><a href="/todos/new">New Todo</a></div>
+
+          <div class="panel-footer">
+            <a href="/todos/new" class="btn btn-primary btn-lg btn-block">
+              New Todo
+            </a>
+          </div>
+
         </div>
       </div>
     </div>
@@ -35,7 +40,13 @@
   <script>
     $('button.btn-danger').on('click', function(e) {
       e.preventDefault();
-      // make an ajac request to an enpoint I haven't created yet.
+      var $currentTarget = $(e.currentTarget);
+      var id = $currentTarget.data('id');
+      $currentTarget.parent().remove();
+      $.ajax({
+        url: "/todos/" + id + '/delete',
+        method: "POST"
+      });
     });
   </script>
 </body>

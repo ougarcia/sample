@@ -1,3 +1,5 @@
+require 'byebug'
+
 class TodosController < Reloj::ControllerBase
 
   def index
@@ -21,7 +23,7 @@ class TodosController < Reloj::ControllerBase
 
   def destroy
     @todo = Todo.find(params[:id])
-    redirect_to "/"
-    # write code for destroying here
+    @todo.destroy
+    render_content("{}", "application/json")
   end
 end
