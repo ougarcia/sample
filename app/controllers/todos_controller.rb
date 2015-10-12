@@ -14,7 +14,7 @@ class TodosController < Reloj::ControllerBase
 
   def create
     @todo = Todo.new(params[:todo])
-    if @todo.save
+    if @todo.title == "" || @todo.save
       redirect_to "/"
     else
       render :new
